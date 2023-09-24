@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Bauziet';
+    src: url('Bauziet/Bauziet Norm Bold.ttf') format('truetype');
+    /* Add more formats if needed, like WOFF2 and WOFF */
+  }
+
+h1{
+    font-family: 'Bauziet', sans-serif;
+    font-size: 100px;
+    text-align: center;
+    
+    
+}
+
+body{
+    display: flex;
+    background-color: black;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+a:visited{
+    color: yellow;
+}
+
+a:hover{
+    color: blue;
+}
