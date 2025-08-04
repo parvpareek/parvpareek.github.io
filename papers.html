@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Papers I've Read - Parv Pareek">
+    <meta name="author" content="Parv Pareek">
+    <meta name="theme-color" content="#222222">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="images/nicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/nicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/nicons/favicon-16x16.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/style-3.css">
+      
+    <title>Papers I've Read - Parv Pareek</title>
+    <style>
+        .tag-filter {
+            margin: 20px 0;
+        }
+        .tag-btn {
+            margin: 5px;
+            padding: 8px 16px;
+            border: 1px solid #666;
+            background: transparent;
+            color: #666;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .tag-btn.active {
+            background: #666;
+            color: white;
+        }
+        .tag-btn:hover {
+            background: #666;
+            color: white;
+        }
+        .paper-card {
+            border: none;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            margin: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        .paper-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .paper-authors {
+            color: #666;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .paper-tags {
+            margin-top: 8px;
+        }
+        .paper-tag {
+            background: transparent;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 0;
+            font-size: 12px;
+            margin-right: 8px;
+            border: 1px solid #ddd;
+        }
+        .admin-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 0;
+            border: 1px solid #ddd;
+            display: none;
+            z-index: 1000;
+            max-width: 400px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .admin-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            color: #999;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 12px;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        .admin-toggle:hover {
+            opacity: 1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary:hover {
+            background: #333;
+        }
+        .back-link {
+            margin-bottom: 30px;
+        }
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            color: #333;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container pt-5 allstuffp">
+        <div class="back-link">
+            <a href="index.html" class="menulink">← Back to Home</a>
+        </div>
+        
+        <h1>Papers I've Read</h1>
+        <p class="about">A collection of research papers I've read and loved, organized by topics.</p>
+
+        <!-- Admin Toggle Button (Secret) -->
+        <button class="admin-toggle" onclick="toggleAdmin()" title="Admin">···</button>
+
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <h4>Add New Paper</h4>
+            <form id="paperForm">
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input type="text" class="form-control" id="paperTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Authors:</label>
+                    <input type="text" class="form-control" id="paperAuthors" required>
+                </div>
+                <div class="form-group">
+                    <label>Conference/Journal:</label>
+                    <input type="text" class="form-control" id="paperConference" required>
+                </div>
+                <div class="form-group">
+                    <label>Year:</label>
+                    <input type="number" class="form-control" id="paperYear" required>
+                </div>
+                <div class="form-group">
+                    <label>Link:</label>
+                    <input type="url" class="form-control" id="paperLink" required>
+                </div>
+                <div class="form-group">
+                    <label>Tags (comma-separated):</label>
+                    <input type="text" class="form-control" id="paperTags" placeholder="e.g., NLP, Deep Learning, LLM">
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea class="form-control" id="paperNotes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Add Paper</button>
+            </form>
+        </div>
+
+        <!-- Tag Filters -->
+        <div class="tag-filter">
+            <button class="tag-btn active" onclick="filterPapers('all')">All</button>
+            <button class="tag-btn" onclick="filterPapers('Deep Learning')">Deep Learning</button>
+            <button class="tag-btn" onclick="filterPapers('NLP')">NLP</button>
+            <button class="tag-btn" onclick="filterPapers('Computer Vision')">Computer Vision</button>
+            <button class="tag-btn" onclick="filterPapers('Graph Neural Networks')">Graph Neural Networks</button>
+            <button class="tag-btn" onclick="filterPapers('VLMs')">VLMs</button>
+            <button class="tag-btn" onclick="filterPapers('LLM')">LLM</button>
+            <button class="tag-btn" onclick="filterPapers('To Read')">To Read</button>
+        </div>
+
+        <!-- Papers Container -->
+        <div id="papersContainer">
+            <!-- Papers will be loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let papers = JSON.parse(localStorage.getItem('papers')) || [
+            {
+                title: "Attention Is All You Need",
+                authors: "Vaswani et al.",
+                conference: "NIPS 2017",
+                year: 2017,
+                link: "https://arxiv.org/abs/1706.03762",
+                tags: ["NLP", "Deep Learning", "Transformer"],
+                notes: "The seminal paper that introduced the Transformer architecture."
+            },
+            {
+                title: "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+                authors: "Devlin et al.",
+                conference: "NAACL 2019",
+                year: 2019,
+                link: "https://arxiv.org/abs/1810.04805",
+                tags: ["NLP", "Deep Learning", "LLM"],
+                notes: "Introduced BERT and bidirectional pre-training."
+            }
+        ];
+
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function filterPapers(tag) {
+            // Update active button
+            document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter papers
+            const container = document.getElementById('papersContainer');
+            container.innerHTML = '';
+
+            papers.forEach(paper => {
+                if (tag === 'all' || paper.tags.some(t => t.toLowerCase().includes(tag.toLowerCase()))) {
+                    displayPaper(paper);
+                }
+            });
+        }
+
+        function displayPaper(paper) {
+            const container = document.getElementById('papersContainer');
+            const paperDiv = document.createElement('div');
+            paperDiv.className = 'paper-card';
+            
+            const tagsHtml = paper.tags.map(tag => `<span class="paper-tag">${tag}</span>`).join('');
+            
+            paperDiv.innerHTML = `
+                <div class="paper-title">${paper.title}</div>
+                <div class="paper-authors">${paper.authors}</div>
+                <div class="paper-authors">${paper.conference} (${paper.year})</div>
+                <div class="paper-tags">${tagsHtml}</div>
+                ${paper.notes ? `<div style="margin-top: 10px; font-style: italic;">${paper.notes}</div>` : ''}
+                <div style="margin-top: 10px;">
+                    <a href="${paper.link}" target="_blank" class="tag">paper</a>
+                </div>
+            `;
+            
+            container.appendChild(paperDiv);
+        }
+
+        function addPaper(event) {
+            event.preventDefault();
+            
+            const newPaper = {
+                title: document.getElementById('paperTitle').value,
+                authors: document.getElementById('paperAuthors').value,
+                conference: document.getElementById('paperConference').value,
+                year: parseInt(document.getElementById('paperYear').value),
+                link: document.getElementById('paperLink').value,
+                tags: document.getElementById('paperTags').value.split(',').map(tag => tag.trim()).filter(tag => tag),
+                notes: document.getElementById('paperNotes').value
+            };
+
+            papers.push(newPaper);
+            localStorage.setItem('papers', JSON.stringify(papers));
+            
+            // Reset form
+            document.getElementById('paperForm').reset();
+            
+            // Refresh display
+            filterPapers('all');
+            
+            // Hide admin panel
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        // Event listeners
+        document.getElementById('paperForm').addEventListener('submit', addPaper);
+
+        // Initial load - ensure "All" is selected and all papers are shown
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set "All" button as active
+            document.querySelector('.tag-btn').classList.add('active');
+            // Show all papers
+            filterPapers('all');
+        });
+    </script>
+  </body>
+</html> 
